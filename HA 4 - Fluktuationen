@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Replikator:
+def replicator(x, M):
+    return np.dot(M, x)/np.dot(x, np.dot(M, x))
+
+#Parameter:
+Payoff = 1
+Injury = 1.5
+InitD = 0.5
+InitH = 1 - InitD
+A = 0.1
+w = 1
+#Payoff Matrix:
+x = np.linspace(0, 50, 50)
+
+def RelP(InitD, InitH):
+    r = np.empty((50, 2))
+    r[0] = np.array([InitD, InitH])
+    for i in range(r.shape[0]-1):
+        Payoff_fluct = Payoff + A*np.sin(w*i)
+        M = np.array([[(Payoff_fluct - Injury)/2, Payoff_fluct], [0, Payoff_fluct/2]])
+        r[i+1] = r[i] * replicator(x = r[i], M = M)
+    
+    return r
+
+plt.plot(x, RelP(InitD, InitH))
+plt.show()
+
+#Es scheint, als würde das System für A << 1 vernünftig oszillieren, für A > 0.25 bricht das ganze extrem stark in sich zusammen, und dazwischen ergeben sich komische Schwingungen
+#Bei w > 1 macht das System ebenfalls Probleme, w = Pi/2 ist ganz interessant im Vergleich zu w = Pi
