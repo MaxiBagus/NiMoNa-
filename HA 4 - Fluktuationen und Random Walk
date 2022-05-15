@@ -30,3 +30,31 @@ plt.show()
 
 #Es scheint, als würde das System für A << 1 vernünftig oszillieren, für A > 0.25 bricht das ganze extrem stark in sich zusammen, und dazwischen ergeben sich komische Schwingungen
 #Bei w > 1 macht das System ebenfalls Probleme, w = Pi/2 ist ganz interessant im Vergleich zu w = Pi
+
+
+#Ab hier Random Walk
+
+#Random Walk
+import numpy as np
+import random as rd
+import matplotlib.pyplot as plt
+rd.seed(13559)
+
+#Parameter
+mu = 0
+sigma = 1
+V0 = 1
+
+def RandWalk():
+    V = np.zeros(30)
+    V[0] = V0
+    t = 0
+    for i in range(V.shape[0] - 1):
+        V[i + 1] = V[i] + rd.gauss(mu = mu, sigma = sigma)
+
+    return V
+
+plt.plot(RandWalk())
+plt.show
+
+  
